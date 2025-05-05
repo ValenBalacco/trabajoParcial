@@ -7,5 +7,7 @@ router.get('/:id', autorsController.getAutorsById);
 router.post('/', autorsController.createAutors);
 router.put('/:id', autorsController.updateAutors);
 router.delete('/:id', autorsController.deleteAutors);
+router.put('/:id/addBook/:bookId', autorsController.addBookToAuthor);
+
 
 module.exports = router;

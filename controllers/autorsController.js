@@ -54,3 +54,27 @@ exports.deleteAutors = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.addBookToAuthor = async (req, res) => {
+  try {
+    const { id, bookId } = req.params;
+    const autor = await Autors.findById(id);
+    if (!autor) {
+      return res.status(404).json({ message: 'Autor no encontrado' });
+    }
+
+    const libro = await Libros.findById(bookId);
+    if (!libro) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    if (!autor.libros.includes(bookId)) {
+      autor.libros.push(bookId);
+      await autor.save();
+    }
+
+    res.status(200).json({ message: 'Libro agregado al autor', autor });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
