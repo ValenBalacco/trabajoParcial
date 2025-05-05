@@ -21,9 +21,9 @@ exports.getAutorsById = async (req, res) => {
 
 exports.createAutors = async (req, res) => {
   try {
-    const { nombre, bio, nacionalidad, fehchaNacimiento, book } = req.body;
+    const { nombre, bio, nacionalidad, fehchaNacimiento, libros } = req.body;
 
-    if (!nombre || !nacionalidad || !fehchaNacimiento || !book) {
+    if (!nombre || !nacionalidad || !fehchaNacimiento || !libros) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios: nombre, nacionalidad, fehchaNacimiento, book' });
     }
 
@@ -57,19 +57,19 @@ exports.deleteAutors = async (req, res) => {
 
 exports.addBookToAuthor = async (req, res) => {
   try {
-    const { id, bookId } = req.params;
+    const { id, librosId } = req.params;
     const autor = await Autors.findById(id);
     if (!autor) {
       return res.status(404).json({ message: 'Autor no encontrado' });
     }
 
-    const libro = await Libros.findById(bookId);
+    const libro = await Libros.findById(librosId);
     if (!libro) {
       return res.status(404).json({ message: 'Libro no encontrado' });
     }
 
-    if (!autor.libros.includes(bookId)) {
-      autor.libros.push(bookId);
+    if (!autor.libros.includes(librosId)) {
+      autor.libros.push(librosId);
       await autor.save();
     }
 
